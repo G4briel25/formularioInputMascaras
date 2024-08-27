@@ -6,7 +6,9 @@ const form = ref({
     email: 'gjaune@gmail.com',
     senha: '12345',
     idade: '20',
-    licenca: false
+    licenca: false,
+    interesses: ['VueJS', 'Angular'],
+    genero: 'Masculino'
 });
 
 
@@ -47,13 +49,13 @@ const form = ref({
                         <label class="col-3 col-form-label">Gênero:</label>
                         <div class="col">
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio">
+                                <input class="form-check-input" type="radio" value="Feminino" v-model="form.genero">
                                 <label class="form-check-label">
                                     Feminino
                                 </label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio">
+                                <input class="form-check-input" type="radio" value="Masculino" v-model="form.genero">
                                 <label class="form-check-label">
                                     Masculino
                                 </label>
@@ -76,25 +78,28 @@ const form = ref({
                         <label class="col-3 col-form-label">Interesses:</label>
                         <div class="col">
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox">
+                                <input class="form-check-input" type="checkbox" value="JavaScript"
+                                    v-model="form.interesses">
                                 <label class="form-check-label">
-                                    JavaScriot
+                                    JavaScript
                                 </label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox">
+                                <input class="form-check-input" type="checkbox" value="VueJS" v-model="form.interesses">
                                 <label class="form-check-label">
                                     VueJS
                                 </label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox">
+                                <input class="form-check-input" type="checkbox" value="Angular"
+                                    v-model="form.interesses">
                                 <label class="form-check-label">
                                     Angular
                                 </label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox">
+                                <input class="form-check-input" type="checkbox" value="NodeJS"
+                                    v-model="form.interesses">
                                 <label class="form-check-label">
                                     NodeJS
                                 </label>
@@ -197,13 +202,18 @@ const form = ref({
                     <spam>Idade: {{ form.idade }}</spam>
                 </div>
                 <div class="mb-3 row">
-                    <spam>Gênero:</spam>
+                    <spam>Gênero: {{ form.genero }}</spam>
                 </div>
                 <div class="mb-3 row">
                     <spam>Licença: {{ form.licenca }}</spam>
                 </div>
                 <div class="mb-3 row">
                     <spam>Interesses:</spam>
+                    <ul>
+                        <li v-for="(interesse, index) in form.interesses" :key="index">
+                            {{ interesse }}
+                        </li>
+                    </ul>
                 </div>
                 <div class="mb-3 row">
                     <spam>Telefone:</spam>
