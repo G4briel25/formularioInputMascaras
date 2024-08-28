@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 
 const form = ref({
     nome: 'Gabriel',
@@ -8,10 +8,24 @@ const form = ref({
     idade: '20',
     licenca: false,
     interesses: ['VueJS', 'Angular'],
-    genero: 'Masculino'
+    genero: 'Masculino',
+    telefone: '',
+    cep: '',
+    cpf: '',
+    cnpj: '',
+    cartaoDeCredito: '',
+    placaVeiculo: '',
+    placaVeiculoMercosul: '',
+    rg: ''
 });
 
-
+const letraMaiuscula = computed(() => {
+    const maiuscula = { pattern: /[a-zA-Z]/, uppercase: true };
+    return {
+        mask: "AAA-####",
+        tokens: { A: maiuscula },
+    };
+});
 </script>
 
 <template>
@@ -109,8 +123,60 @@ const form = ref({
                     <div class="mb-3 row">
                         <label class="col-3 col-form-label">Telefone:</label>
                         <div class="col">
-                            <input type="tel" class="form-control" pattern="[0-9]{2} [0-9]{5}-[0-9]{4}">
+                            <input type="text" class="form-control" v-model="form.telefone" v-maska="'(##) #####-####'">
                             <small class="text-muted">Formato: 11 97777-5555</small>
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label class="col-3 col-form-label">CEP:</label>
+                        <div class="col">
+                            <input type="text" class="form-control" v-model="form.cep" v-maska="'#####-###'">
+                            <small class="text-muted">Formato: 00000-000</small>
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label class="col-3 col-form-label">CPF:</label>
+                        <div class="col">
+                            <input type="text" class="form-control" v-model="form.cpf" v-maska="'###.###.###-##'">
+                            <small class="text-muted">Formato: 000.000.000-00</small>
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label class="col-3 col-form-label">CNPJ:</label>
+                        <div class="col">
+                            <input type="text" class="form-control" v-model="form.cnpj" v-maska="'##.###.###/####-##'">
+                            <small class="text-muted">Formato: 00.000.000/0000-00</small>
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label class="col-3 col-form-label">Cartão de Crédito:</label>
+                        <div class="col">
+                            <input type="text" class="form-control" v-model="form.cartaoDeCredito"
+                                v-maska="'#### #### #### ####'">
+                            <small class="text-muted">Formato: 0000 0000 0000 0000</small>
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label class="col-3 col-form-label">Placa Veículo:</label>
+                        <div class="col">
+                            <input type="text" class="form-control" v-model="form.placaVeiculo"
+                                v-maska="letraMaiuscula">
+                            <small class="text-muted">Formato: AAA-0000</small>
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label class="col-3 col-form-label">Placa Veículo Mercosul:</label>
+                        <div class="col">
+                            <input type="text" class="form-control" v-model="form.placaVeiculoMercosul"
+                                v-maska="'#### #### #### ####'">
+                            <small class="text-muted">Formato: </small>
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label class="col-3 col-form-label">RG:</label>
+                        <div class="col">
+                            <input type="text" class="form-control" v-model="form.rg" v-maska="'#### #### #### ####'">
+                            <small class="text-muted">Formato: </small>
                         </div>
                     </div>
                     <div class="mb-3 row">
@@ -184,31 +250,31 @@ const form = ref({
                 <span class="fs-4">ESTADO DO OBJETO</span>
                 <hr>
                 <div class="mb-5 row">
-                    <spam>{{ form }}</spam>
+                    <span>{{ form }}</span>
                 </div>
 
                 <span class="fs-4">SAÍDA DE DADOS</span>
                 <hr>
                 <div class="mb-3 row">
-                    <spam>Nome: {{ form.nome }}</spam>
+                    <span>Nome: {{ form.nome }}</span>
                 </div>
                 <div class="mb-3 row">
-                    <spam>E-mail: {{ form.email }}</spam>
+                    <span>E-mail: {{ form.email }}</span>
                 </div>
                 <div class="mb-3 row">
-                    <spam>Senha: {{ form.senha }}</spam>
+                    <span>Senha: {{ form.senha }}</span>
                 </div>
                 <div class="mb-3 row">
-                    <spam>Idade: {{ form.idade }}</spam>
+                    <span>Idade: {{ form.idade }}</span>
                 </div>
                 <div class="mb-3 row">
-                    <spam>Gênero: {{ form.genero }}</spam>
+                    <span>Gênero: {{ form.genero }}</span>
                 </div>
                 <div class="mb-3 row">
-                    <spam>Licença: {{ form.licenca }}</spam>
+                    <span>Licença: {{ form.licenca }}</span>
                 </div>
                 <div class="mb-3 row">
-                    <spam>Interesses:</spam>
+                    <span>Interesses:</span>
                     <ul>
                         <li v-for="(interesse, index) in form.interesses" :key="index">
                             {{ interesse }}
@@ -216,34 +282,52 @@ const form = ref({
                     </ul>
                 </div>
                 <div class="mb-3 row">
-                    <spam>Telefone:</spam>
+                    <span>CEP: {{ form.cep }}</span>
                 </div>
                 <div class="mb-3 row">
-                    <spam>Data:</spam>
+                    <span>CPF: {{ form.cpf }}</span>
                 </div>
                 <div class="mb-3 row">
-                    <spam>Data/hora local:</spam>
+                    <span>CNPJ: {{ form.cnpj }}</span>
                 </div>
                 <div class="mb-3 row">
-                    <spam>Mês:</spam>
+                    <span>Cartão de Crédito: {{ form.cartaoDeCredito }}</span>
                 </div>
                 <div class="mb-3 row">
-                    <spam>Semana:</spam>
+                    <span>Placa Veículo: {{ form.placaVeiculo }}</span>
                 </div>
                 <div class="mb-3 row">
-                    <spam>Hora:</spam>
+                    <span>Placa Veículo Mercosul: {{ form.placaVeiculoMercosul }}</span>
                 </div>
                 <div class="mb-3 row">
-                    <spam>Cor:</spam>
+                    <span>RG: {{ form.rg }}</span>
                 </div>
                 <div class="mb-3 row">
-                    <spam>Valor limite:</spam>
+                    <span>Data:</span>
                 </div>
                 <div class="mb-3 row">
-                    <spam>Escondido:</spam>
+                    <span>Data/hora local:</span>
                 </div>
                 <div class="mb-3 row">
-                    <spam>Upload:</spam>
+                    <span>Mês:</span>
+                </div>
+                <div class="mb-3 row">
+                    <span>Semana:</span>
+                </div>
+                <div class="mb-3 row">
+                    <span>Hora:</span>
+                </div>
+                <div class="mb-3 row">
+                    <span>Cor:</span>
+                </div>
+                <div class="mb-3 row">
+                    <span>Valor limite:</span>
+                </div>
+                <div class="mb-3 row">
+                    <span>Escondido:</span>
+                </div>
+                <div class="mb-3 row">
+                    <span>Upload:</span>
                 </div>
             </div>
         </div>
