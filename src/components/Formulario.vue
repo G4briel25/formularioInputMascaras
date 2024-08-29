@@ -1,5 +1,6 @@
 <script setup>
 import { computed, ref } from 'vue';
+import inputEstrelas from '@/components/inputEstrelas.vue';
 
 // Documentação moment
 // https://momentjs.com/
@@ -11,7 +12,9 @@ const cursos = ref([
     {id: 4, curso: 'Curso completo do Desenvolvedor NodeJS e MongoDB'},
 ]);
 
-const form = ref({
+const form = ref({});
+
+const formEstadoInicial = ref({
     nome: 'Gabriel',
     email: 'gjaune@gmail.com',
     senha: '12345',
@@ -37,7 +40,8 @@ const form = ref({
     escondido: 'Este input está escondido',
     arquivos: {},
     descricao: '',
-    curso: ''
+    curso: '',
+    avaliacao: 0
 });
 
 const numeroPlacaVeiculo = computed(() => {
@@ -74,6 +78,10 @@ const enviar = (event) => {
 
     const formEnvio = Object.assign({}, form.value); //Copiar o formulario para um novo obj
     console.log(formEnvio);
+}
+
+const resetar = () => {
+    form.value = Object.assign({}, formEstadoInicial.value);
 }
 
 </script>
@@ -301,10 +309,18 @@ const enviar = (event) => {
                             </select>
                         </div>
                     </div>
+                    <div class="mb-3 row">
+                        <label class="col-3 col-form-label">Avaliação:</label>
+                        <div class="col">
+                            <!-- <inputEstrelas :numero-estrelas="5" @avaliar="form.avaliacao = $event"></inputEstrelas> -->
+                            <inputEstrelas :numero-estrelas="5" v-model:avaliar="form.avaliacao"></inputEstrelas>
+                        </div>
+                    </div>
                     <hr>
                     <div class="mb-3 row">
                         <div class="col d-flex justify-content-between">
-                            <button class="btn btn-secondary" type="reset">Limpar</button>
+                            <button class="btn btn-secondary" type="button" @click="resetar()">Limpar (reset)</button>
+                            <button class="btn btn-secondary" type="reset">Limpar (reset)</button>
                             <button class="btn btn-success" type="button" @click="enviar($event)">Enviar (btn)</button>
                             <button class="btn btn-success" type="submit">Enviar (submit)</button>
                         </div>
@@ -417,6 +433,9 @@ const enviar = (event) => {
                 </div>
                 <div class="mb-3 row">
                     <span>Curso: {{ form.curso }}</span>
+                </div>
+                <div class="mb-3 row">
+                    <span>Avaliação: {{ form.avaliacao }}</span>
                 </div>
             </div>
         </div>
